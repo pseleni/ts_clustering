@@ -1,0 +1,5 @@
+analytic
+results
+.vscode
+__pycache__
+output.txt
