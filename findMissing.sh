@@ -89,7 +89,7 @@ stringList=(
   "Yoga"
 )
 # Specify the directory where the files are located
-directory="./defaultResults"
+directory="./results"
 
 # Loop through each string in the list
 for string in "${stringList[@]}"
