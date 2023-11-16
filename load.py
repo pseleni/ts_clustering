@@ -9,7 +9,7 @@ datasets = [
     # 'ChlorineConcentration',
     # 'CinCECGTorso',
     'Coffee',
-    # 'Computers',
+    'Computers',
     'CricketX',
     'CricketY',
     'CricketZ',
@@ -57,7 +57,7 @@ datasets = [
     'ProximalPhalanxOutlineCorrect',
     'ProximalPhalanxOutlineAgeGroup',
     'ProximalPhalanxTW',
-    # 'RefrigerationDevices',
+    'RefrigerationDevices',
     # 'ScreenType',
     'ShapeletSim',
     'ShapesAll',
@@ -101,3 +101,14 @@ images = [('adj_rand_mean', 'adj_rand_std')]
 # ('adj_mut_mean', 'adj_mut_std')]
 baseResults = 'results/'
 baseAnalytics = 'analytics/'
+
+a = ['$0$', '$10^{-4}$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$1$']
+x = [1, 2, 3, 4, 5]
+ARI = (1, 2)
+AMI = (3, 4)
+RUNTIME = (5, 6)
+ARI_LABEL = 'ARI'
+AMI_LABEL = 'AMI'
+
+ADJ_MUT = 'adj_mutual_info'
+ADJ_RAND = 'adj_rand_ind'
