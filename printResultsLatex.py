@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+import io
 import load
 import os
 import sys
@@ -164,7 +165,9 @@ def write_table_contents(stream, dataset, cols, df, accumulate):
 
 
 def print_table(datasets, metric, preprocessed, base, cols, stream=sys.stdout):
-    write_table_header(stream, metric, preprocessed, cols)
+    header_buffered_string = io.StringIO()
+    write_table_header(header_buffered_string, metric, preprocessed, cols)
+    stream.write(header_buffered_string.getvalue())
     accumulate = np.zeros((2, 6))
     for d in datasets:
         filename = os.path.join(base, get_filename(d, metric, preprocessed))
@@ -181,9 +184,13 @@ def print_table(datasets, metric, preprocessed, base, cols, stream=sys.stdout):
         for i in range(avg.shape[1]):
             string = f'{string} & {avg[0][i]:.3f} ({avg[1][i]:.3f})'
     string = f'{string} \\\\ '
+    last_line = string
     stream.write(string)
     stream.write('\n')
-    write_table_close(stream)
+    footer_buffered_string = io.StringIO()
+    write_table_close(footer_buffered_string)
+    stream.write(footer_buffered_string.getvalue())
+    return header_buffered_string.getvalue(), footer_buffered_string.getvalue(), last_line
 
 
 def print_specific_table(datasets, metric, preprocessed, base1, base2, adjs, col, stream):
@@ -206,30 +213,32 @@ def print_specific_table(datasets, metric, preprocessed, base1, base2, adjs, col
     for i in range(avg.shape[1]):
         string = f'{string} & {avg[0][i]:.3f} ({avg[1][i]:.3f})'
     string = f'{string} \\\\ '
+    last_line = string
     stream.write(string)
     stream.write('\n')
     write_table_close(stream)
+    return last_line
 
 
 def print_run_time_table(datasets, metric, preprocessed, base, stream=sys.stdout):
-    print_table(datasets, metric, preprocessed, base, RUNTIME, stream)
+    return print_table(datasets, metric, preprocessed, base, RUNTIME, stream)
 
 
 def print_ami_table(datasets, metric, preprocessed, base, stream=sys.stdout):
-    print_table(datasets, metric, preprocessed, base, AMI, stream)
+    return print_table(datasets, metric, preprocessed, base, AMI, stream)
 
 
 def print_ari_table(datasets, metric, preprocessed, base, stream=sys.stdout):
-    print_table(datasets, metric, preprocessed, base, ARI, stream)
+    return print_table(datasets, metric, preprocessed, base, ARI, stream)
 
 
 def print_ari_specific_table(datasets, metric, preprocessed, base1, base2, col, stream=sys.stdout):
-    print_specific_table(datasets, metric, preprocessed,
+    return print_specific_table(datasets, metric, preprocessed,
                          base1, base2, ADJ_RAND, col, stream)
 
 
 def print_ami_specific_table(datasets, metric, preprocessed, base1, base2, col, stream=sys.stdout):
-    print_specific_table(datasets, metric, preprocessed,
+    return print_specific_table(datasets, metric, preprocessed,
                          base1, base2, ADJ_MUT, col, stream)
 
 
@@ -354,6 +363,32 @@ def printFullResultsPaper(datasets, metric, preprocessed, base):
     print("\\end{table}")
 
 
+class Total:
+    def __init__(self):
+        self.header = str()
+        self.footer = str()
+        self.top = str()
+        self.rows = []
+
+    def insert_mean(self, header, footer, mean):
+        self.header = header
+        self.footer = footer
+        self.top = mean
+
+    def insert_rows(self, row, replacement):
+        modified = row.replace('mean', replacement)
+        self.rows.append(modified)
+
+    def write(self, stream):
+        stream.write(self.header)
+        for row in self.rows:
+            stream.write(row)
+            stream.write('\n')
+        stream.write(self.top)
+        stream.write('\n')
+        stream.write(self.footer)
+
+
 datasets = load.datasets
 header = load.header
 base = load.baseResults
@@ -361,13 +396,18 @@ baseAnalytics = load.baseAnalytics
 metrics = load.metrics
 
 for metric in metrics:
-    print_ami_table(datasets, metric, True, base)
+    ami = Total()
+    ami_preprocessed = Total()
+    ari = Total()
+    ari_preprocessed = Total()
+
+    ami_preprocessed.insert_mean(*print_ami_table(datasets, metric, True, base))
     sys.stdout.write('\n\n\n')
-    print_ari_table(datasets, metric, True, base)
+    ari_preprocessed.insert_mean(*print_ari_table(datasets, metric, True, base))
     sys.stdout.write('\n\n\n')
-    print_ami_table(datasets, metric, False, base)
+    ami.insert_mean(*print_ami_table(datasets, metric, False, base))
     sys.stdout.write('\n\n\n')
-    print_ari_table(datasets, metric, False, base)
+    ari.insert_mean(*print_ari_table(datasets, metric, False, base))
     sys.stdout.write('\n\n\n')
     # print_run_time_table(datasets, metric, True, base)
     # sys.stdout.write('\n\n\n')
@@ -391,13 +431,28 @@ for metric in metrics:
     sys.stdout.write('\n\n\n')
     print_run_time_table(datasets, metric, False, base)
     sys.stdout.write('\n\n\n')
-    # for i in range(1, 7):
-    #     print_ari_specific_table(
-    #         datasets, metric, False, base, baseAnalytics, i)
-    # for i in range(1, 7):
-    #     print_ari_specific_table(
-    #         datasets, metric, True, base, baseAnalytics, i)
+    for i in range(1, 7):
+        ami.insert_rows(print_ami_specific_table(
+            datasets, metric, False, base, baseAnalytics, i), a[i-1])
+        ami_preprocessed.insert_rows(print_ami_specific_table(
+            datasets, metric, True, base, baseAnalytics, i), a[i-1])
+        ari.insert_rows(print_ari_specific_table(
+            datasets, metric, False, base, baseAnalytics, i), a[i-1])
+        ari_preprocessed.insert_rows(print_ari_specific_table(
+            datasets, metric, True, base, baseAnalytics, i), a[i-1])
 
+    # sys.stdout.write('\n\n\n')
+    # ami.write(sys.stdout)
+    # sys.stdout.write('\n\n\n')
+    # ami_preprocessed.write(sys.stdout)
+    sys.stdout.write('\n\n\n')
+    ari.write(sys.stdout)
+    sys.stdout.write('\n\n\n')
+    ari_preprocessed.write(sys.stdout)
+    sys.stdout.write('\n\n\n')
+
+# for s in ami:
+#     sys.stdout.write(s)
 # for column in images:
     # printFullResultsPaper(datasets, 'dtw', True, base)
     # printFullResultsPaper(datasets, 'dtw', False, base)
