@@ -7,14 +7,13 @@ import os
 import sys
 
 
-x = [1, 2, 3, 4, 5]
-a = ['$0$', '$10^{-3}$', '$10^{-2}$', '$10^{-1}$', '$1$', '$10$']
-ARI = (1, 2)
-AMI = (3, 4)
-RUNTIME = (5, 6)
-
-ADJ_MUT = 'adj_mutual_info'
-ADJ_RAND = 'adj_rand_ind'
+x = load.x
+a = load.a
+ARI = load.ARI
+AMI = load.AMI
+RUNTIME = load.RUNTIME
+ADJ_MUT = load.ADJ_MUT
+ADJ_RAND = load.ADJ_RAND
 
 
 def get_filename(dataset, metric, preprocessed):
@@ -362,26 +361,42 @@ baseAnalytics = load.baseAnalytics
 metrics = load.metrics
 
 for metric in metrics:
-    #     print_ami_table(datasets, metric, True, base)
-    #     sys.stdout.write('\n\n\n')
-    #     print_ari_table(datasets, metric, True, base)
-    #     sys.stdout.write('\n\n\n')
-    #     print_ami_table(datasets, metric, False, base)
-    #     sys.stdout.write('\n\n\n')
-    #     print_ari_table(datasets, metric, False, base)
-    #     sys.stdout.write('\n\n\n')
+    print_ami_table(datasets, metric, True, base)
+    sys.stdout.write('\n\n\n')
+    print_ari_table(datasets, metric, True, base)
+    sys.stdout.write('\n\n\n')
+    print_ami_table(datasets, metric, False, base)
+    sys.stdout.write('\n\n\n')
+    print_ari_table(datasets, metric, False, base)
+    sys.stdout.write('\n\n\n')
     # print_run_time_table(datasets, metric, True, base)
     # sys.stdout.write('\n\n\n')
     # print_run_time_table(datasets, metric, False, base)
     # print_ami_specific_table(datasets, metric, False, base, baseAnalytics, 1)
     # print_ari_specific_table(datasets, metric, False, base, baseAnalytics, 1)
     # print_ami_specific_table(datasets, metric, False, base, baseAnalytics, 2)
-    for i in range(1, 7):
-        print_ari_specific_table(
-            datasets, metric, False, base, baseAnalytics, i)
-    for i in range(1, 7):
-        print_ari_specific_table(
-            datasets, metric, True, base, baseAnalytics, i)
+    print_ari_specific_table(
+        datasets, metric, False, base, baseAnalytics, 1)
+    sys.stdout.write('\n\n\n')
+    print_ari_specific_table(
+        datasets, metric, True, base, baseAnalytics, 1)
+    sys.stdout.write('\n\n\n')
+    print_ami_specific_table(
+        datasets, metric, False, base, baseAnalytics, 1)
+    sys.stdout.write('\n\n\n')
+    print_ami_specific_table(
+        datasets, metric, True, base, baseAnalytics, 1)
+    sys.stdout.write('\n\n\n')
+    print_run_time_table(datasets, metric, True, base)
+    sys.stdout.write('\n\n\n')
+    print_run_time_table(datasets, metric, False, base)
+    sys.stdout.write('\n\n\n')
+    # for i in range(1, 7):
+    #     print_ari_specific_table(
+    #         datasets, metric, False, base, baseAnalytics, i)
+    # for i in range(1, 7):
+    #     print_ari_specific_table(
+    #         datasets, metric, True, base, baseAnalytics, i)
 
 # for column in images:
     # printFullResultsPaper(datasets, 'dtw', True, base)
