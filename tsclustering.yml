@@ -12,3 +12,4 @@ dependencies:
   - gpytorch
   - h5py
   - numpy
+  - dtaidistance
