@@ -1,5 +1,5 @@
-# Time Series Clustering
-The code for Time Series Clustering using Sparse Gaussian Processes Framework
+# Efficient Time-Series Clustering through Sparse Gaussian Modeling
+This repository contains the code for ''Efficient Time-Series Clustering through Sparse Gaussian Modeling'' paper. 
 
 
 ### Find which dataset's results are not available 
