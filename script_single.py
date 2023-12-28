@@ -15,6 +15,7 @@ metrics = load.metrics
 header = load.header
 datasets = load.datasets
 
+
 def init_logger(log_file):
     logger = logging.getLogger(current_process().name)
     logger.setLevel(logging.DEBUG)
@@ -71,9 +72,6 @@ def workload(preprocess, metric, data, runs=10, outputFolder='lastResults', base
             logger.info(f"Gaussian k-means {i} results written.")
 
     logger.info("Finished")
-
-
-
 
 
 def main(preprocess, metric, data,  runs=10, outputFolder='lastResults'):

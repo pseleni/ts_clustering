@@ -111,7 +111,6 @@ def printScatterComparison(column, choose='mean', a_i=None, normalized=False, me
                     mean.append(df[x_i].tolist())
                 framework.append(np.max(mean))
         else:
-
             filename = f"{baseAnalytics}{dataset}_{metric}_{type}{preprocessing}.csv"
             df = pd.read_csv(filename, header=None)
             mean = df[a_i].tolist()
@@ -145,6 +144,150 @@ def printScatterComparison(column, choose='mean', a_i=None, normalized=False, me
         f'images/{metric}_{acc}_{choose}_{a_i}{preprocessing}.pdf', bbox_inches='tight')
 
 
+def printScatterComparisonA(column, choose='mean', a_i=None, metric='dtw'):
+    header = load.header
+    baseResults = load.baseResults
+    baseAnalytics = load.baseAnalytics
+    datasets = load.datasets
+    if a_i == None:
+        aa = ''
+    else:
+        if choose != 'best' and choose != 'mean':
+            aa = f"for $\\alpha$={load.a[a_i-1]} and $m=${choose}$\\log T$"
+        else:
+            aa = f"for $\\alpha$={load.a[a_i-1]}"
+
+    # y = ['original', '1log2or', '2log2or', '3log2or', '4log2or', '5log2or']
+    framework = []
+    base = []
+    if column == load.ARI:
+        type = load.ADJ_RAND
+        acc = load.ARI_LABEL
+    elif column == load.AMI:
+        type = load.ADJ_MUT
+        acc = load.AMI_LABEL
+
+    for dataset in datasets:
+        filename = f"{baseResults}{dataset}_{metric}.csv"
+        df = pd.read_csv(filename)
+        mean = df[header[column[0]]].tolist()
+        base.append(mean[0])
+
+        filename = f"{baseAnalytics}{dataset}_{metric}_{type}.csv"
+        df = pd.read_csv(filename, header=None)
+        if a_i != None:
+            mean = df[a_i].tolist()
+            if choose == 'mean':
+                framework.append(np.average(mean))
+            elif choose == 'best':
+                framework.append(np.max(mean))
+            else:
+                framework.append(mean[choose-1])
+
+    d = [(i-j)**2 for i, j in zip(base, framework)]
+    loss = [(i-j) for i, j in zip(base, framework)]
+
+    f, ax = plt.subplots()
+    ax.set(xlim=(-0.1, 1), ylim=(-0.1, 1))
+    ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+    props = dict(boxstyle='round', facecolor='lightgrey', alpha=0.5)
+    if (np.mean(loss) > 0):
+        ax.text(.05, .95, f'Spread = {np.mean(d):.3f}\nLoss = {np.mean(loss):.3f}',
+                verticalalignment='top',
+                transform=ax.transAxes, bbox=props)
+    else:
+        ax.text(.05, .95, f'Spread = {np.mean(d):.3f}\nGain = {np.abs(np.mean(loss)):.3f}',
+                verticalalignment='top',
+                transform=ax.transAxes, bbox=props)
+    scatter = ax.scatter(framework,
+                         base,
+                         marker='o', c=d, cmap='Spectral',  vmin=0, vmax=1)
+    plt.colorbar(scatter, ax=ax, label=f'{acc} difference')
+    if choose != 'best' and choose != 'mean':
+        ax.set_xlabel(rf'framework {acc} {aa}')
+    else:
+        ax.set_xlabel(rf'framework {choose} {acc} {aa}')
+    ax.set_ylabel(f'base {acc}')
+    plt.savefig(
+        f'imagesDisc/{metric}_{acc}_{choose}_for_static_a_{a_i}.pdf', bbox_inches='tight')
+
+def printScatterComparisonM(column, choose='mean', m=None, metric='dtw'):
+    header = load.header
+    baseResults = load.baseResults
+    baseAnalytics = load.baseAnalytics
+    datasets = load.datasets
+    if m == None:
+        aa = ''
+    else:
+        if choose != 'best' and choose != 'mean':
+            aa = f"for $m=${m}$\\log T$ and $\\alpha$={load.a[choose -1]}"
+        else:
+            aa = f"for $m=${m}$\\log T$"
+
+    # y = ['original', '1log2or', '2log2or', '3log2or', '4log2or', '5log2or']
+    framework = []
+    base = []
+    if column == load.ARI:
+        type = load.ADJ_RAND
+        acc = load.ARI_LABEL
+    elif column == load.AMI:
+        type = load.ADJ_MUT
+        acc = load.AMI_LABEL
+
+    for dataset in datasets:
+        filename = f"{baseResults}{dataset}_{metric}.csv"
+        df = pd.read_csv(filename)
+        mean = df[header[column[0]]].tolist()
+        base.append(mean[0])
+
+        filename = f"{baseAnalytics}{dataset}_{metric}_{type}.csv"
+        df = pd.read_csv(filename, header=None)
+        if m != None:
+            mean = []
+            for a_i in range(1,5):
+                mean.append(df[a_i].tolist()[m-1])
+            if choose == 'mean':
+                framework.append(np.average(mean))
+            elif choose == 'best':
+                framework.append(np.max(mean))
+            else:
+                framework.append(mean[choose-1])
+        else: 
+            mean = []
+            for a_i in range(1,5):
+                mean.append(df[a_i].tolist())
+            if choose == 'mean':
+                framework.append(np.average(mean))
+            elif choose == 'best':
+                framework.append(np.max(mean))
+
+    d = [(i-j)**2 for i, j in zip(base, framework)]
+    loss = [(i-j) for i, j in zip(base, framework)]
+
+    f, ax = plt.subplots()
+    ax.set(xlim=(-0.1, 1), ylim=(-0.1, 1))
+    ax.plot(ax.get_xlim(), ax.get_ylim(), ls="--", c=".3")
+    props = dict(boxstyle='round', facecolor='lightgrey', alpha=0.5)
+    if (np.mean(loss) > 0):
+        ax.text(.05, .95, f'Spread = {np.mean(d):.3f}\nLoss = {np.mean(loss):.3f}',
+                verticalalignment='top',
+                transform=ax.transAxes, bbox=props)
+    else:
+        ax.text(.05, .95, f'Spread = {np.mean(d):.3f}\nGain = {np.abs(np.mean(loss)):.3f}',
+                verticalalignment='top',
+                transform=ax.transAxes, bbox=props)
+    scatter = ax.scatter(framework,
+                         base,
+                         marker='o', c=d, cmap='Spectral',  vmin=0, vmax=1)
+    plt.colorbar(scatter, ax=ax, label=f'{acc} difference')
+    if choose != 'best' and choose != 'mean':
+        ax.set_xlabel(rf'framework {acc} {aa}')
+    else:
+        ax.set_xlabel(rf'framework {choose} {acc} {aa}')
+    ax.set_ylabel(f'base {acc}')
+    plt.savefig(
+        f'imagesDisc/{metric}_{acc}_{choose}_for_static_m_{m}.pdf', bbox_inches='tight')
+
 images = [('adj_rand_mean', 'adj_rand_std')]
 
 # for column in images:
@@ -153,11 +296,31 @@ images = [('adj_rand_mean', 'adj_rand_std')]
 
 columns = ('run_time', 'run_time_base')
 
-for metric in load.metrics:
-    for choose in ['mean', 'best']:
-        for preprocess in [True, False]:
-            for col in [None, 1]:
-                for acc in [load.AMI, load.ARI]:
-                    print(acc, choose, col, preprocess, metric)
-                    printScatterComparison(
-                        acc, choose, col, preprocess, metric)
+# for metric in load.metrics:
+#     for choose in ['mean', 'best',]:
+#         for preprocess in [True, False]:
+#             for col in [None, 1]:
+#                 for acc in [load.AMI, load.ARI]:
+#                     print(acc, choose, col, preprocess, metric)
+#                     printScatterComparison(
+#                         acc, choose, col, preprocess, metric)
+                    
+
+                    
+for choose in ['best', 'mean', 1, 2, 3, 4, 5]:
+    for col in [1,2,3,4]:
+        for acc in [load.ARI]:
+            print(acc, choose, col, "dtw")
+            printScatterComparisonA(
+                acc, choose, col, "dtw")
+
+
+for choose in ['best', 'mean', 1,2,3,4]:
+    for col in [1,2,3,4,5]:
+        for acc in [load.ARI]:
+            print(acc, choose, col, "dtw")
+            printScatterComparisonM(
+                acc, choose, col, "dtw")
+
+printScatterComparisonM(acc, 'best', None, "dtw")
+printScatterComparisonM(acc, 'mean', None, "dtw")
