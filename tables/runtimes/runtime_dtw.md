@@ -1,3 +1,5 @@
+CPU Utilization time of the standard $k$-means algorithm and of the modeling and the clustering phase of Algorithm 1 for dtw metric.
+
 | **dataset**                        | **$T_k$** | **$T_b$** | **$T_a$** | **$\frac{T_k}{T_b}$** | **$\frac{T_a + T_b}{T_k}$** |
 |:-----------------------------------|:---------:|:---------:|:---------:|:---------------------:|:---------------------------:|
 | **Adiac**                          | 809.606   | 117.040   | 5468.717  | 6.917                 | 6.899                       |

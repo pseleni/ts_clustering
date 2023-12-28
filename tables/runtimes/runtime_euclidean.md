@@ -1,3 +1,6 @@
+CPU Utilization time of the standard $k$-means algorithm and of the modeling and the clustering phase of Algorithm 1 for euclidean metric.
+
+
 | **dataset**                        | **$T_k$** | **$T_b$** | **$T_a$** | **$\frac{T_k}{T_b}$** | **$\frac{T_a + T_b}{T_k}$** |
 |:-----------------------------------|:---------:|:---------:|:---------:|:---------------------:|:---------------------------:|
 | **Adiac**                          | 2.847     | 4.244     | 5346.339  | 0.671                 | 1879.376                    |

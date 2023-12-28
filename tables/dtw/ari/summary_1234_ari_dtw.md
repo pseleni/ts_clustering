@@ -1,3 +1,6 @@
+### Main Paper Table 2
+Summarized ARI averages for different parameter configurations. The average relative order of the results achieved by each algorithm is reported in parenthesis.
+
 | **parameter $\alpha$**   | **baseline**  | **$1\cdot \log{T}$** | **$2\cdot \log{T}$** | **$3\cdot \log{T}$** | **$4\cdot \log{T}$** | **$5\cdot \log{T}$** |
 |:--------------|:-------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|
 | **$0$**       | 0.249 (2.524) | 0.173 (4.270)                 | 0.222 (3.683)                 | 0.217 (3.492)                 | 0.220 (3.762)                 | 0.225 (3.270)                 |

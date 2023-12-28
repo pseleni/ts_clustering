@@ -1,3 +1,6 @@
+Best ARI of UCR datasets for Algorithm 3 (the baseline computed by standard $k$-means) and Algorithm 1 (Sparse Time-Series Clustering)
+with number of inducing points $m = \gamma \log_2 T$, for $\gamma \in \{1, 2, 3, 4, 5\}$ and $(\alpha m / T)$-DTW. Averages are computed over ARI values of 10 different runs (for the baseline) and bests over ARI values of 10 different runs for each different value of $\alpha \{ 0, 10^{-4}, 10^{-3}, 10^{-2} \}$ for the sparse framework. The best average ARI is reported in bold. In parenthesis, we report the relative order of the corresponding average ARI among the six ones reported, from $1$ (best) to $6$ (worst). In the last line, we report the average ARI (and the average relative order) for each column across all datasets. 
+
 | **dataset**                        | **baseline**       | **$1\cdot \log{T}$**| **$2\cdot \log{T}$**| **$3\cdot \log{T}$**| **$4\cdot \log{T}$**| **$5\cdot \log{T}$**|
 |:-----------------------------------|:------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|:-----------------------------:|
 | **Adiac**                          | **0.243**(1) | 0.239 (2)                     | 0.235 (3)                     | 0.196 (6)                     | 0.225 (4)                     | 0.223 (5)                     |
