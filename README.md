@@ -2,11 +2,11 @@
 This repository contains the code for ''Efficient Time-Series Clustering through Sparse Gaussian Modeling'' paper. 
 
 
-### Structure
+## Structure
 
     .
     ├── analytics               # Contains the results for each a-m combination
-    ├── images                  # All
+    ├── images                  # All images
     │   ├── dtw                 # Images for dtw metric
     │   |    ├── ami            # AMI images
     │   |    ├── ari            # ARI images
@@ -14,8 +14,8 @@ This repository contains the code for ''Efficient Time-Series Clustering through
     │   |    ├── ami            # AMI images
     │   |    ├── ari            # ARI images
     │   ├── runtime             # Runtime images
-    │   └── additional          # Runtime images
-    ├── results                 # Contains the avg and std over a for each m and runtimes
+    │   └── additional          # Additional images
+    ├── results                 # Contains the avg and std over a for each m and run-times
     ├── tables                  # Tables in tex and md form 
     │   ├── dtw                 # Tables for dtw metric
     │   |    ├── ami            # AMI tables
@@ -29,7 +29,7 @@ This repository contains the code for ''Efficient Time-Series Clustering through
 
 
 
-### Find which dataset's results are not available 
+#### Find which dataset's results are not available 
 For our convenience, we have created a bash script that checks the files in the results folder and prints all the combinations of (dataset, metric, with/without preprocessing) that are missing. To run and save the results to a file simply:
 ```
 bash ./findMissing.sh > missing.txt
