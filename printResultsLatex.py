@@ -317,6 +317,9 @@ def print_ari_specific_table_bm(datasets, metric, preprocessed, base1, base2, co
     return print_specific_table_bm(datasets, metric, preprocessed,
                          base1, base2, ADJ_RAND, cols, bm, stream)
 
+def print_ami_specific_table_bm(datasets, metric, preprocessed, base1, base2, cols, bm, stream=sys.stdout):
+    return print_specific_table_bm(datasets, metric, preprocessed,
+                         base1, base2, ADJ_MUT, cols, bm, stream)
 
 def print_ari_specific_table(datasets, metric, preprocessed, base1, base2, col, stream=sys.stdout):
     return print_specific_table(datasets, metric, preprocessed,
@@ -481,79 +484,44 @@ base = load.baseResults
 baseAnalytics = load.baseAnalytics
 metrics = load.metrics
 
-# for metric in ["dtw"]:#metrics:
-#     # ami = Total()
-#     # ami_preprocessed = Total()
+# for metric in metrics:
 #     ari = Total()
-#     # ari_preprocessed = Total()
 
-#     # ami_preprocessed.insert_mean(*print_ami_table(datasets, metric, True, base))
-#     # sys.stdout.write('\n\n\n')
-#     # ari_preprocessed.insert_mean(*print_ari_table(datasets, metric, True, base))
-#     # sys.stdout.write('\n\n\n')
-#     # ami.insert_mean(*print_ami_table(datasets, metric, False, base))
-#     # sys.stdout.write('\n\n\n')
-       
-#     ari.insert_mean(*print_ari_table(datasets, metric, False, base))
-#     sys.stdout.write('\n\n\n')
-#     # print_run_time_table(datasets, metric, True, base)
-#     # sys.stdout.write('\n\n\n')
-#     print_run_time_table(datasets, metric, False, base)
-#     # print_ami_specific_table(datasets, metric, False, base, baseAnalytics, 1)
-#     # print_ari_specific_table(datasets, metric, False, base, baseAnalytics, 1)
-#     # print_ami_specific_table(datasets, metric, False, base, baseAnalytics, 2)
-#     # print_ari_specific_table(
-#     #     datasets, metric, False, base, baseAnalytics, 1)
-#     # sys.stdout.write('\n\n\n')
-#     # # print_ari_specific_table(
-#     #     datasets, metric, True, base, baseAnalytics, 1)
-#     # sys.stdout.write('\n\n\n')
-#     # print_ami_specific_table(
-#     #     datasets, metric, False, base, baseAnalytics, 1)
-#     # sys.stdout.write('\n\n\n')
-#     # print_ami_specific_table(
-#     #     datasets, metric, True, base, baseAnalytics, 1)
-#     # sys.stdout.write('\n\n\n')
-#     # print_run_time_table(datasets, metric, True, base)
-#     # sys.stdout.write('\n\n\n')
-#     # print_run_time_table(datasets, metric, False, base)
-#     # sys.stdout.write('\n\n\n')
-#     for i in range(1, 5):
-#         # ami.insert_rows(print_ami_specific_table(
-#         #     datasets, metric, False, base, baseAnalytics, i), a[i-1])
-#         # ami_preprocessed.insert_rows(print_ami_specific_table(
-#         #     datasets, metric, True, base, baseAnalytics, i), a[i-1])
-#         ari.insert_rows(print_ari_specific_table(
-#             datasets, metric, False, base, baseAnalytics, i), a[i-1])
-#         # ari_preprocessed.insert_rows(print_ari_specific_table(
-#         #     datasets, metric, True, base, baseAnalytics, i), a[i-1])
-#     ari.insert_rows(print_ari_specific_table_bm(
-#             datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'mean'), 'avg')
-#     ari.insert_rows(print_ari_specific_table_bm(
-#         datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'best'), 'best')
-#     # sys.stdout.write('\n\n\n')
-#     # ami.write(sys.stdout)
-#     # sys.stdout.write('\n\n\n')
-#     # ami_preprocessed.write(sys.stdout)
-#     sys.stdout.write('\n\n\n')
-#     ari.write(sys.stdout)
-#     sys.stdout.write('\n\n\n')
-#     # ari_preprocessed.write(sys.stdout)
-#     # sys.stdout.write('\n\n\n')
-#     # ami.write(sys.stdout)
-#     # sys.stdout.write('\n\n\n')
-#     # ami_preprocessed.write(sys.stdout)
-#     # sys.stdout.write('\n\n\n')
+    # ami_preprocessed.insert_mean(*print_ami_table(datasets, metric, True, base))
+    # sys.stdout.write('\n\n\n')
+    # ari_preprocessed.insert_mean(*print_ari_table(datasets, metric, True, base))
+    # sys.stdout.write('\n\n\n')
+    # ami.insert_mean(*print_ami_table(datasets, metric, False, base))
+    # sys.stdout.write('\n\n\n')      
+    # ari.insert_mean(*print_ari_table(datasets, metric, False, base))
+    # sys.stdout.write('\n\n\n')
 
+    # print_run_time_table(datasets, metric, False, base)
+    # for i in range(1, 5):
+    #     ari.insert_rows(print_ari_specific_table(
+    #         datasets, metric, False, base, baseAnalytics, i), a[i-1])
+    #     sys.stdout.write('\n\n\n')
+    # ari.insert_rows(print_ari_specific_table_bm(
+    #         datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'mean'), 'avg')
+    # sys.stdout.write('\n\n\n')
+    # ari.insert_rows(print_ari_specific_table_bm(
+    #     datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'best'), 'best')
+    # sys.stdout.write('\n\n\n')
+    # ari.write(sys.stdout)
 
-
-# for s in ami:
-#     sys.stdout.write(s)
-# for column in images:
-    # printFullResultsPaper(datasets, 'dtw', True, base)
-    # printFullResultsPaper(datasets, 'dtw', False, base)
-for metric in ["dtw"]:#metrics:
- 
-    print_ari_specific_table_bm(
-            datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'mean')
+for metric in metrics:
+    ami = Total()      
+    ami.insert_mean(*print_ami_table(datasets, metric, False, base))
+    sys.stdout.write('\n\n\n')     
+    for i in range(1, 5):
+        ami.insert_rows(print_ami_specific_table(
+            datasets, metric, False, base, baseAnalytics, i), a[i-1])
+        sys.stdout.write('\n\n\n')
+    ami.insert_rows(print_ami_specific_table_bm(
+            datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'mean'), 'avg')
+    sys.stdout.write('\n\n\n')
+    ami.insert_rows(print_ami_specific_table_bm(
+        datasets, metric, False, base, baseAnalytics, [1,2,3,4], 'best'), 'best')
+    sys.stdout.write('\n\n\n')
+    ami.write(sys.stdout)           
     
