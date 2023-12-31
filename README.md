@@ -5,7 +5,6 @@ This repository contains the code for ''Efficient Time-Series Clustering through
 ## Structure
 
     .
-    ├── analytics               # Contains the results for each a-m combination
     ├── images                  # All images
     │   ├── dtw                 # Images for dtw metric
     │   |    ├── ami            # AMI images
@@ -15,7 +14,10 @@ This repository contains the code for ''Efficient Time-Series Clustering through
     │   |    ├── ari            # ARI images
     │   ├── runtime             # Runtime images
     │   └── additional          # Additional images
-    ├── results                 # Contains the avg and std over a for each m and run-times
+    ├── src                     # Contains the code and the results
+    │   ├── analytics           # Contains the results for each a-m combination
+    │   ├── results             # Contains the avg and std over a for each m and run-times
+    │   └── ...                 # source code
     ├── tables                  # Tables in tex and md form 
     │   ├── dtw                 # Tables for dtw metric
     │   |    ├── ami            # AMI tables
@@ -24,9 +26,7 @@ This repository contains the code for ''Efficient Time-Series Clustering through
     │   |    ├── ami            # AMI tables
     │   |    ├── ari            # ARI tables
     │   └── runtime             # Runtime tables
-    └── ...
-
-
+    └── ...                     # README, yml
 
 
 #### Find which dataset's results are not available 
