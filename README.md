@@ -1,7 +1,25 @@
-# Efficient Time-Series Clustering through Sparse Gaussian Modeling
-This repository contains the code for ''Efficient Time-Series Clustering through Sparse Gaussian Modeling'' paper. 
+# ts_clustering
+
+This repository contains the code for our paper:
+
+**Efficient Time-Series Clustering through Sparse Gaussian Modeling** <br />
+*Dimitris Fotakis, Panagiotis Patsilinakos, Eleni Psaroudaki, Michalis Xefteris*<br />
+Paper: https://www.mdpi.com/1999-4893/17/2/61
 
 
+```
+@article{fotakis2024efficient,
+  title={Efficient Time-Series Clustering through Sparse Gaussian Modeling},
+  author={Fotakis, Dimitris and Patsilinakos, Panagiotis and Psaroudaki, Eleni and Xefteris, Michalis},
+  journal={Algorithms},
+  volume={17},
+  number={2},
+  pages={61},
+  year={2024},
+  publisher={MDPI}
+}
+
+```
 ## Structure
 
     .
